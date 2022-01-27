@@ -1,0 +1,811 @@
+  [1m[35m (334.4ms)[0m  [1m[35mCREATE DATABASE "todo_list_project_development" ENCODING = 'unicode'[0m
+  [1m[35m (251.4ms)[0m  [1m[35mCREATE DATABASE "todo_list_project_test" ENCODING = 'unicode'[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(8697414568941661500)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20220127183829)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "email" character varying, "password_digest" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220127183829"]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCategories (20220127184236)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "categories" ("id" bigserial primary key, "user_id" bigint NOT NULL, "name" character varying, "position" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_b8e2f7adfc"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE INDEX "index_categories_on_user_id" ON "categories" ("user_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220127184236"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateTodoLists (20220127184431)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "todo_lists" ("id" bigserial primary key, "category_id" bigint NOT NULL, "title" character varying, "description" character varying, "position" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_2907c88449"
+FOREIGN KEY ("category_id")
+  REFERENCES "categories" ("id")
+)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE INDEX "index_todo_lists_on_category_id" ON "todo_lists" ("category_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220127184431"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateTodoItems (20220127184700)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "todo_items" ("id" bigserial primary key, "todo_list_id" bigint NOT NULL, "name" character varying, "description" text, "position" integer, "completed" boolean, "completed_at" timestamp, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_d913ce1c56"
+FOREIGN KEY ("todo_list_id")
+  REFERENCES "todo_lists" ("id")
+)[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE INDEX "index_todo_items_on_todo_list_id" ON "todo_items" ("todo_list_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220127184700"]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2022-01-27 18:47:54.904257"], ["updated_at", "2022-01-27 18:47:54.904257"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(8697414568941661500)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-01-27 15:48:07 -0300
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /home/alysson/.rvm/gems/ruby-3.0.0/gems/railties-6.1.4.4/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/alysson/.rvm/gems/ruby-3.0.0/gems/railties-6.1.4.4/lib/rails/templates/rails/welcome/index.html.erb (Duration: 5.9ms | Allocations: 513)
+Completed 200 OK in 26ms (Views: 16.8ms | ActiveRecord: 0.0ms | Allocations: 4202)
+
+
+Started GET "/todo_lists" for 127.0.0.1 at 2022-01-27 15:48:42 -0300
+Processing by TodoListsController#index as HTML
+Completed 404 Not Found in 12ms (ActiveRecord: 2.2ms | Allocations: 3954)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Category without an ID):
+  
+app/controllers/todo_lists_controller.rb:53:in `set_category'
+Started GET "/todo_list" for 127.0.0.1 at 2022-01-27 15:48:48 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/todo_list"):
+  
+Started GET "/category" for 127.0.0.1 at 2022-01-27 15:48:51 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/category"):
+  
+Started GET "/categories" for 127.0.0.1 at 2022-01-27 15:48:57 -0300
+Processing by CategoriesController#index as HTML
+Completed 404 Not Found in 8ms (ActiveRecord: 2.3ms | Allocations: 1775)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find User without an ID):
+  
+app/controllers/categories_controller.rb:53:in `set_user'
+Started GET "/users" for 127.0.0.1 at 2022-01-27 15:49:01 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 5.6ms | Allocations: 1367)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 2086.4ms | Allocations: 28375)
+Completed 500 Internal Server Error in 2090ms (ActiveRecord: 1.3ms | Allocations: 29607)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 15:50:15 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (2.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 7.0ms | Allocations: 1175)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 1231.3ms | Allocations: 6305)
+Completed 500 Internal Server Error in 1237ms (ActiveRecord: 2.3ms | Allocations: 7443)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 15:52:44 -0300
+  [1m[35m (6.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1429)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 1255.5ms | Allocations: 10429)
+Completed 500 Internal Server Error in 1266ms (ActiveRecord: 0.9ms | Allocations: 15093)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 15:53:20 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 5.4ms | Allocations: 913)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 1174.4ms | Allocations: 5782)
+Completed 500 Internal Server Error in 1176ms (ActiveRecord: 1.7ms | Allocations: 6163)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:01:05 -0300
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 3.5ms | Allocations: 1429)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 1195.6ms | Allocations: 10424)
+Completed 500 Internal Server Error in 1206ms (ActiveRecord: 1.4ms | Allocations: 15088)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:01:27 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (2.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 7.8ms | Allocations: 1182)
+  Rendered layout layouts/application.html.erb (Duration: 24.1ms | Allocations: 8736)
+Completed 500 Internal Server Error in 30ms (ActiveRecord: 2.2ms | Allocations: 9890)
+
+
+  
+ActionView::Template::Error (The asset "application.js" is not present in the asset pipeline.
+):
+     9:     <%= stylesheet_link_tag "application", :media => "all" %>
+    10: 
+    11: 
+    12:     <%= javascript_include_tag "application" %>
+    13:   </head>
+    14: 
+    15:   <body>
+  
+app/views/layouts/application.html.erb:12
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:05:14 -0300
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 3.2ms | Allocations: 1429)
+  Rendered layout layouts/application.html.erb (Duration: 850.4ms | Allocations: 1389408)
+Completed 500 Internal Server Error in 915ms (ActiveRecord: 1.0ms | Allocations: 1394070)
+
+
+  
+ActionView::Template::Error (The asset "application.js" is not present in the asset pipeline.
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag "application", :media => "all" %>
+    10:     <%= javascript_include_tag "application" %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:05:19 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (2.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 8.8ms | Allocations: 913)
+  Rendered layout layouts/application.html.erb (Duration: 37.6ms | Allocations: 12089)
+Completed 500 Internal Server Error in 40ms (ActiveRecord: 2.8ms | Allocations: 12470)
+
+
+  
+ActionView::Template::Error (The asset "application.js" is not present in the asset pipeline.
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag "application", :media => "all" %>
+    10:     <%= javascript_include_tag "application" %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/categories" for 127.0.0.1 at 2022-01-27 16:07:07 -0300
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CategoriesController#index as HTML
+Completed 404 Not Found in 10ms (ActiveRecord: 2.3ms | Allocations: 3844)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find User without an ID):
+  
+app/controllers/categories_controller.rb:53:in `set_user'
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:07:16 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 1374)
+  Rendered layout layouts/application.html.erb (Duration: 621.2ms | Allocations: 1379608)
+Completed 500 Internal Server Error in 624ms (ActiveRecord: 1.1ms | Allocations: 1380943)
+
+
+  
+ActionView::Template::Error (The asset "application.js" is not present in the asset pipeline.
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag "application", :media => "all" %>
+    10:     <%= javascript_include_tag "application" %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:07:50 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 7.0ms | Allocations: 1181)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 1214.1ms | Allocations: 10671)
+Completed 500 Internal Server Error in 1223ms (ActiveRecord: 1.7ms | Allocations: 11824)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:09:55 -0300
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1429)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 1975.3ms | Allocations: 1378088)
+Completed 500 Internal Server Error in 1985ms (ActiveRecord: 0.9ms | Allocations: 1382750)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:10:00 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (3.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 11.3ms | Allocations: 913)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at module.exports (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/util/createHash.js:135:53)
+    at NormalModule._initBuildHash (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:417:16)
+    at handleParseError (/home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:471:10)
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:503:5
+    at /home/alysson/Documentos/todo-list/node_modules/webpack/lib/NormalModule.js:358:12
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:373:3
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:214:10)
+    at iterateNormalLoaders (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:221:10)
+    at /home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:236:3
+    at context.callback (/home/alysson/Documentos/todo-list/node_modules/loader-runner/lib/LoaderRunner.js:111:13)
+    at /home/alysson/Documentos/todo-list/node_modules/babel-loader/lib/index.js:59:71 {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.3.1
+
+  Rendered layout layouts/application.html.erb (Duration: 1210.9ms | Allocations: 10003)
+Completed 500 Internal Server Error in 1213ms (ActiveRecord: 3.2ms | Allocations: 10384)
+
+
+  
+ActionView::Template::Error (Webpacker can't find application.js in /home/alysson/Documentos/todo-list/public/packs/manifest.json. Possible causes:
+1. You want to set webpacker.yml value of compile to true for your environment
+   unless you are using the `webpack -w` or the webpack-dev-server.
+2. webpack has not yet re-run to reflect updates.
+3. You have misconfigured Webpacker's config/webpacker.yml file.
+4. Your webpack configuration is not creating a manifest.
+Your manifest contains:
+{
+}
+):
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+    13:   <body>
+  
+app/views/layouts/application.html.erb:10
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:10:24 -0300
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 3.9ms | Allocations: 1429)
+[Webpacker] Compiling...
+[Webpacker] Compiled all packs in /home/alysson/Documentos/todo-list/public/packs
+[Webpacker] Hash: 2034dd941d5476d8645c
+Version: webpack 4.46.0
+Time: 1215ms
+Built at: 2022-01-27 16:10:27
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-3dd0dc24d9c39bc09227.js    125 KiB  application  [emitted] [immutable]  application
+js/application-3dd0dc24d9c39bc09227.js.map    139 KiB  application  [emitted] [dev]        application
+                             manifest.json  364 bytes               [emitted]              
+Entrypoint application = js/application-3dd0dc24d9c39bc09227.js js/application-3dd0dc24d9c39bc09227.js.map
+[./app/javascript/channels sync recursive _channel\.js$] ./app/javascript/channels sync _channel\.js$ 160 bytes {application} [built]
+[./app/javascript/channels/index.js] 211 bytes {application} [built]
+[./app/javascript/packs/application.js] 492 bytes {application} [built]
+[./node_modules/webpack/buildin/module.js] (webpack)/buildin/module.js 552 bytes {application} [built]
+    + 3 hidden modules
+
+  Rendered layout layouts/application.html.erb (Duration: 3143.0ms | Allocations: 1377171)
+Completed 200 OK in 3153ms (Views: 3143.6ms | ActiveRecord: 1.4ms | Allocations: 1381890)
+
+
+Started GET "/users/new" for 127.0.0.1 at 2022-01-27 16:10:35 -0300
+Processing by UsersController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/_form.html.erb (Duration: 10.6ms | Allocations: 4939)
+  Rendered users/new.html.erb within layouts/application (Duration: 11.3ms | Allocations: 5313)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 17.7ms | Allocations: 12555)
+Completed 200 OK in 42ms (Views: 18.3ms | ActiveRecord: 10.8ms | Allocations: 17294)
+
+
+Started POST "/users" for 127.0.0.1 at 2022-01-27 16:10:51 -0300
+Processing by UsersController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "user"=>{"name"=>"Alysson", "email"=>"alysson@email.com", "password_digest"=>"[FILTERED]"}, "commit"=>"Create User"}
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:27:in `block in create'
+  [1m[36mUser Create (2.0ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Alysson"], ["email", "alysson@email.com"], ["password_digest", "32442303"], ["created_at", "2022-01-27 19:10:51.770168"], ["updated_at", "2022-01-27 19:10:51.770168"]]
+  ↳ app/controllers/users_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:27:in `block in create'
+Redirected to http://127.0.0.1:3000/users/1
+Completed 302 Found in 17ms (ActiveRecord: 4.7ms | Allocations: 3586)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2022-01-27 16:10:51 -0300
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:63:in `set_user'
+  Rendering layout layouts/application.html.erb
+  Rendering users/show.html.erb within layouts/application
+  Rendered users/show.html.erb within layouts/application (Duration: 0.7ms | Allocations: 303)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 8.0ms | Allocations: 7563)
+Completed 200 OK in 14ms (Views: 8.6ms | ActiveRecord: 1.6ms | Allocations: 9588)
+
+
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:10:54 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 5.6ms | Allocations: 1114)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 20.5ms | Allocations: 8881)
+Completed 200 OK in 23ms (Views: 20.0ms | ActiveRecord: 1.5ms | Allocations: 9352)
+
+
+Started GET "/sessions" for 127.0.0.1 at 2022-01-27 16:27:26 -0300
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/sessions"):
+  
+Started GET "/logiun" for 127.0.0.1 at 2022-01-27 16:27:33 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/logiun"):
+  
+Started GET "/login" for 127.0.0.1 at 2022-01-27 16:27:36 -0300
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 0.9ms | Allocations: 495)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 628.5ms | Allocations: 1374822)
+Completed 200 OK in 633ms (Views: 630.3ms | ActiveRecord: 0.0ms | Allocations: 1377084)
+
+
+Started GET "/login" for 127.0.0.1 at 2022-01-27 16:31:50 -0300
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.3ms | Allocations: 195)
+  Rendered layout layouts/application.html.erb (Duration: 32.3ms | Allocations: 3935)
+Completed 500 Internal Server Error in 35ms (ActiveRecord: 0.0ms | Allocations: 4355)
+
+
+  
+ActionView::Template::Error (Error: Invalid CSS after "* {": expected "}", was "{"
+        on line 20:4 of app/assets/stylesheets/application.css.sass
+>> * { {
+
+   ---^
+):
+     6:     <%= csrf_meta_tags %>
+     7:     <%= csp_meta_tag %>
+     8: 
+     9:     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    10:     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    11:   </head>
+    12: 
+  
+app/assets/stylesheets/application.css.sass:20
+app/views/layouts/application.html.erb:9
+Started GET "/login" for 127.0.0.1 at 2022-01-27 16:32:09 -0300
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 0.6ms | Allocations: 195)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 51.5ms | Allocations: 9701)
+Completed 200 OK in 53ms (Views: 52.3ms | ActiveRecord: 0.0ms | Allocations: 10144)
+
+
+Started GET "/login" for 127.0.0.1 at 2022-01-27 16:33:17 -0300
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 1.1ms | Allocations: 397)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 10.4ms | Allocations: 7892)
+Completed 200 OK in 13ms (Views: 12.5ms | ActiveRecord: 0.0ms | Allocations: 9015)
+
+
+Started GET "/users" for 127.0.0.1 at 2022-01-27 16:34:34 -0300
+Processing by UsersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering users/index.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/views/users/index.html.erb:16
+  Rendered users/index.html.erb within layouts/application (Duration: 25.9ms | Allocations: 8320)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 32.3ms | Allocations: 15577)
+Completed 200 OK in 38ms (Views: 33.7ms | ActiveRecord: 15.3ms | Allocations: 18598)
+
+

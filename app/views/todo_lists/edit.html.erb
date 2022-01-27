@@ -1,0 +1,6 @@
+<h1>Editing todo_list</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', [@todo_list.category, @todo_list] %> |
+<%= link_to 'Back', category_todo_lists_path(@todo_list.category) %>

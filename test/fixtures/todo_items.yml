@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  todo_list: one
+  name: MyString
+  description: MyText
+  position: 1
+  completed: false
+  completed_at: 2022-01-27 15:47:00
+
+two:
+  todo_list: two
+  name: MyString
+  description: MyText
+  position: 1
+  completed: false
+  completed_at: 2022-01-27 15:47:00

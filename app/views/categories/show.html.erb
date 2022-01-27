@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @category.user %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @category.name %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%= @category.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_category_path(@category.user, @category) %> |
+<%= link_to 'Back', user_categories_path(@category.user) %>

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Category:</b>
+  <%= @todo_list.category %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @todo_list.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @todo_list.description %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%= @todo_list.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_category_todo_list_path(@todo_list.category, @todo_list) %> |
+<%= link_to 'Back', category_todo_lists_path(@todo_list.category) %>
