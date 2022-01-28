@@ -1,18 +1,13 @@
 Rails.application.routes.draw do
-  resources :todo_lists do
-    resources :todo_items
-  end
-  namespace :todo_list do
-    resources :todo_items
-  end
-  resources :categories do
-  end
-  namespace :category do
-  end
+
   resources :users do
+    resources :categories do
+      resources :todo_lists do
+        resources :todo_items
+      end
+    end
   end
-  namespace :user do
-  end
+
 
 
   # get '/' => 'collaborators#index'

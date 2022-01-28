@@ -1,32 +1,57 @@
-<%= form_with(model: user) do |form| %>
+<%= form_with(model: user, local: true) do |form| %>
   <% if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
       <ul>
-        <% user.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
+      <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="col-sm-6 col-md-4 offset-md-4 offset-sm-3 col-8 offset-2" style="margin-top: 100px">
+  <%= link_to 'Voltar', login_path, :class => "btn border-1 waves-effect waves-light border-primary mb-1" %>
+  <div class="card" style="border-radius: 20px">
+    <div class="card-header border-5 border-warning" style="background: #41C1E8">
+      <h4 class="card-title offset-3 offset-sm-4" style="color: white">
+         Cadastre-se
+      </h4>
+    </div>
+    <form action="/users" method="POST" remote=true>
+      <div class="mb-2 mt-3 col-12 offset-2 offset-sm-2">
+        <label for="exampleFormControlInput1" class="form-label">Seu nome completo</label>
+        <div class="col-lg-8 col-8">
+          <%= form.text_field :name, :class => "form-control", :placeholder => "Jose Carlos"  %>
+        </div>
+      </div>
+      <div class="mb-2 mt-3 col-12 offset-2 offset-sm-2">
+        <label for="exampleFormControlInput1" class="form-label">E-mail</label>
+        <div class="col-lg-8 col-8">
+          <%= form.text_field :email, :class => "form-control", :placeholder => "nome@credishop.com"  %>
+        </div>
+      </div>
+      <div class="mb-2 offset-2 offset-sm-2 col-12">
+        <label for="inputPassword" class="col-sm-4 col-form-label">Senha</label>
+        <div class="col-lg-8 col-8">
+          <%= form.password_field :password, :class => "form-control"  %>
+        </div>
+      </div>
+      <div class="mb-2 offset-2 offset-sm-2 col-12">
+        <label for="inputPassword" class="col-sm-4 col-form-label">Confirme a senha</label>
+        <div class="col-lg-8 col-8">
+          <%= form.password_field :password_confirmation, :class => "form-control"  %>
+        </div>
+      </div>
+      <div class="card-footer p-1 pr-1 text-center">
+        <div class="row">
+          <div class="col actions">
+          <%= button_to 'Cadastrar', login_path, :class => "btn submit btn-warning border-1 waves-effect waves-light border-primary" %>
+        </div>
+      </div>
+      <div>
+    </form>
   </div>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div class="field">
-    <%= form.label :password_digest %>
-    <%= form.text_field :password_digest %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
+

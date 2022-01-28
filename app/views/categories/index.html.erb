@@ -1,25 +1,22 @@
-<h1>Listing categories</h1>
 
+<h1><%=@category&.name&.capitalize || @categories.first.name.capitalize%></h1>
+<div class="row">
+    <div class="col-3">
+        <% @categories.each do |category| %>
+        <ul>
+            <li><%=link_to  '#', data: {reflex: 'click->Category#change_category', id: category.id} do %>
+                <%= category.name %>
+            <% end%>
+        </ul>
+    <% end %>
+    </div>
+    <div class="col-9">
+        <%= render 'show', category: @category || @categories.first%>
+    </dev>
+</div>
 <table>
-  <tr>
-    <th>User</th>
-    <th>Name</th>
-    <th>Position</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
-<% @categories.each do |category| %>
-  <tr>
-    <td><%= category.user %></td>
-    <td><%= category.name %></td>
-    <td><%= category.position %></td>
-    <td><%= link_to 'Show', [category.user, category] %></td>
-    <td><%= link_to 'Edit', edit_user_category_path(category.user, category) %></td>
-    <td><%= link_to 'Destroy', [category.user, category], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+
 </table>
 
 <br />

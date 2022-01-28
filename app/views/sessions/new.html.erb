@@ -1,0 +1,38 @@
+<% if notice %>
+<p class="alert alert-warning float-none font-weight-bold d-block text-justify" role="alert" id="notice">
+<span class="offset-md-4 mr-md-5"><%= notice %></span>
+<i class="fas fa-times" onclick="javascript: dismissAlert()"></i>
+</p> 
+
+<% end %>
+<div class="col-sm-6 col-md-4 offset-md-4 offset-sm-3 col-8 offset-2" style="margin-top: 100px">
+  <div class="card" style="border-radius: 20px">
+    <div class="card-header border-5 border-warning" style="background: #41C1E8">
+      <h4 class="card-title offset-4 offset-sm-5" style="color: white">
+         Login
+      </h4>
+    </div>
+    <form action="/sessions" method="POST" remote=true>
+      <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+      <div class="mb-3 mt-3 col-12 offset-2 offset-sm-2">
+        <label for="exampleFormControlInput1" class="form-label">E-mail</label>
+        <div class="col-lg-8 col-8">
+          <input type="email" class="form-control" id="exampleFormControlInput1" name="login[email]" placeholder="nome@example.com">
+        </div>
+      </div>
+      <div class="mb-5 offset-2 offset-sm-2 col-12">
+        <label for="inputPassword" class="col-sm-4 col-form-label">Senha</label>
+        <div class="col-lg-8 col-8">
+          <input type="password"  placeholder="Insira sua senha" class="form-control" name="login[password]" id="inputPassword">
+        </div>
+      </div>
+      <div class="card-footer p-1 pr-1 text-center">
+        <div class="row">
+          <div class="col">
+          <%= button_to 'Entrar', login_path, :class => "btn btn-warning border-1 waves-effect waves-light border-primary" %>
+        </div>
+      </div>
+      <div>
+    </form>
+  </div>
+<br>

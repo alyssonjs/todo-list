@@ -9,6 +9,7 @@ class TodoListsController < ApplicationController
 
   # GET categories/1/todo_lists/1
   def show
+    @todo_item = TodoItem.new
   end
 
   # GET categories/1/todo_lists/new
@@ -24,8 +25,9 @@ class TodoListsController < ApplicationController
   def create
     @todo_list = @category.todo_lists.build(todo_list_params)
 
+
     if @todo_list.save
-      redirect_to([@todo_list.category, @todo_list], notice: 'Todo list was successfully created.')
+      redirect_to user_categories_path(@category.user)
     else
       render action: 'new'
     end
@@ -59,6 +61,6 @@ class TodoListsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def todo_list_params
-      params.require(:todo_list).permit(:category_id, :title, :description, :position)
+      params.require(:todo_list).permit(:category_id, :title, :description, :position, :user_id)
     end
 end

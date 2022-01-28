@@ -1,0 +1,32 @@
+
+<p id="notice"><%= notice %></p>
+
+<!-- <p>
+  <b>User:</b>
+  <%= category.user %>
+</p> -->
+
+<!-- <p>
+  <%= category.name %>
+</p> -->
+<%= link_to 'New Todo list', new_user_category_todo_list_path(@user, category) %>
+
+<!-- <p>
+  <b>Position:</b>
+  <%= category.position %>
+</p> -->
+<ul>
+  <% category.todo_lists.each do |todo_list|%>
+    <li>
+      <%= todo_list.title%>
+      <td><%= link_to 'Edit', edit_user_category_todo_list_url(todo_list.category.user, todo_list.category, todo_list) %></td>
+      <td><%= link_to '#', data: { reflex: 'click->TodoList#delete_todo_list', id: todo_list.id } do %>
+            Destroy
+      <% end%></td>
+            
+    </li>
+  <%end%>
+</ul>
+
+<%= link_to 'Edit', edit_user_category_path(category.user, category) %> |
+<%= link_to 'Back', user_categories_path(category.user) %>

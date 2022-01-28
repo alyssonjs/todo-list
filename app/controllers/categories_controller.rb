@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :set_user
   before_action :set_category, only: [:show, :edit, :update, :destroy]
+    skip_before_action :verify_authenticity_token
 
   # GET users/1/categories
   def index
@@ -9,6 +10,7 @@ class CategoriesController < ApplicationController
 
   # GET users/1/categories/1
   def show
+    @todo_lists = @category.todo_lists
   end
 
   # GET users/1/categories/new
