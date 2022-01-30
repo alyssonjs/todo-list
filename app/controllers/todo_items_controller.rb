@@ -5,7 +5,6 @@ class TodoItemsController < ApplicationController
   # GET todo_lists/1/todo_items
   def index
     @todo_items = @todo_list.todo_items
-  end
 
   # GET todo_lists/1/todo_items/1
   def show

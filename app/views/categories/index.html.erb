@@ -1,24 +1,77 @@
-
-<h1><%=@category&.name&.capitalize || @categories.first.name.capitalize%></h1>
-<div class="row">
-    <div class="col-3">
-        <% @categories.each do |category| %>
-        <ul>
-            <li><%=link_to  '#', data: {reflex: 'click->Category#change_category', id: category.id} do %>
-                <%= category.name %>
-            <% end%>
-        </ul>
-    <% end %>
-    </div>
-    <div class="col-9">
-        <%= render 'show', category: @category || @categories.first%>
-    </dev>
+<div class="card-header d-flex justify-content-between">
+    <h1 class="navbar-brand">
+        Olá, <%= current_user.name.capitalize %>
+    </h1>
+    <h1 class="navbar-brand">
+        Categoria <%= @category&.name&.capitalize || @categories&.first&.name&.capitalize %>
+    </h1>
+    <%= button_to 'LOGOUT', logout_path(current_user), method: :delete, data: { confirm: 'Tem certeza que deseja sair?' }, class: "btn btn-sm", :style => "color: Black; padding-right: 100%;" %>
 </div>
-<table>
 
-
-</table>
-
-<br />
-
-<%= link_to 'New Category', new_user_category_path(params[:user_id]) %>
+<div class="card-body" style="min-height: 550px;overflow-y: scroll;">
+    <div class="row" style="height: 550px"">
+        <ul class=" col-3 nav flex-column nav-tabs h-100 ">
+            <div class=" row ">
+                <% if @create_category %>
+                    <%= form_with(model: [Category.new], style: "") do |f| %>
+                        <div class=" input-group ">
+                            <%= f.text_field :name, data: { reflex: 'change->Category#submit', reflex_dataset: "combined" },  class: "form-control form-control-sm", placeholder: "Nome" %>
+                            <div class="input-group-append">
+                            <div class=" btn-group " style=" margin-left: -40; margin-top: 20%">
+                                <%= button_to "#", data: { reflex: 'click->Category#create_category', id: @user.id }, class: "btn btn-primary btn-sm input-group-btn", style: "margin-left: 27%;" do %>
+                                    <small style="font-size: 15px; color: white">+</small>
+                                <% end %>
+                                <%= link_to '#', data: { reflex: 'click->Category#unset_create_category' }, class: 'btn btn btn-danger btn-sm', style: 'margin-right: -30%; width: 10%' do %>
+                                    <div style="font-size: 15px; color: white">x</div>
+                                <% end %>
+                            </div>
+                            </div>
+                        </div>
+                    <% end %>
+                <% else %>
+                    <%= link_to '#', data: {reflex: 'click->Category#set_create_category'}, class: 'btn btn-primary btn-sm',  style: "margin-left: 10%" do %>
+                     <div style="font-size: 12px; color: white">Adicionar Categoria</div>
+                    <% end %>
+                <% end %>
+            </div>
+            <hr class="divider mb-0 mt-1">
+            <div class="row">
+                <div id="categories-list" data-controller="category" style="margin-left: 2%">
+                    <% @categories.order(:position).each do |category| %>
+                        <li class="nav-item btn-group ml-3 w-100" data-sgid="<%= category.to_sgid_param %>">
+                            <% if category == @category %>
+                                <% if @editing_category == category&.id %>
+                                    <%= render 'form' %>
+                                <% else %>
+                                    <%= link_to  '#', data: {reflex: 'click->Category#change_category', id: category.id}, class: "btn btn-sm nav-link active" do %>
+                                        <small style="margin-left: -24%"><%= category.name.capitalize %></small>
+                                    <% end %>
+                                    <button type="button" style="min-width: 20%; max-width: 20%;margin-right: -20%" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                <% end %>
+                            <% else %>
+                                <% if @editing_category == category&.id %>
+                                    <%= render 'form' %>
+                            <% else %>
+                                    <%= link_to  '#', data: {reflex: 'click->Category#change_category', id: category.id}, class: "nav-link ", style: 'min-width: 100%' do %>
+                                        <%= category.name.capitalize %>
+                                    <% end %>
+                                <% end %>
+                            <% end %>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" data-reflex="click->Category#set_edit_category" data-id="<%= category.id %>">Editar</a></li>
+                                <li><a class="dropdown-item" href="#" data-reflex="click->Category#delete_category" data-id="<%= category.id %>">Remover</a></li>
+                            </ul>
+                        </li>
+                    <% end %>
+                </div>
+            </div>
+        </ul>
+        <div class="col-8">
+            <% if @category || @categories.present? %>
+                <%= render 'show', category: @category || @categories.order(:position)&.first %>
+            <% end %>
+        </div>
+    </div>
+</div>

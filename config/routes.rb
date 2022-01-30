@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
+  resources :users
 
-  resources :users do
-    resources :categories do
-      resources :todo_lists do
-        resources :todo_items
-      end
+  resources :categories do
+    resources :todo_lists do
+      resources :todo_items
     end
   end
 
 
-
-  # get '/' => 'collaborators#index'
+  post '/users' => 'users#create'
+  get '/' => 'categories#index'
   get '/login' => 'sessions#new'
   delete '/logout' => 'sessions#destroy'
   post '/sessions' =>  'sessions#create'

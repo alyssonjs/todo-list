@@ -1,5 +1,7 @@
 import ApplicationController from './application_controller'
-
+import Sortable from 'sortablejs'
+import { sort } from 'webpack/lib/dependencies/DependencyReference'
+import RemoveEmptyChunksPlugin from 'webpack/lib/optimize/RemoveEmptyChunksPlugin'
 /* This is the custom StimulusReflex controller for the TodoList Reflex.
  * Learn more at: https://docs.stimulusreflex.com
  */
@@ -18,7 +20,14 @@ export default class extends ApplicationController {
 
   connect () {
     super.connect()
-    // add your code here, if applicable
+    this.sortable = Sortable.create(this.element, {
+      aminamtion: 150,
+      onEnd: this.end.bind(this),
+    })
+  }
+
+  end(event){
+    this.stimulate("TodoList#sort", event.item.dataset.sgid, event.newIndex + 1)
   }
 
   /* Reflex specific lifecycle methods.

@@ -1,8 +1,8 @@
-import { sort } from 'webpack/lib/dependencies/DependencyReference'
-import RemoveEmptyChunksPlugin from 'webpack/lib/optimize/RemoveEmptyChunksPlugin'
 import ApplicationController from './application_controller'
 import Sortable from 'sortablejs'
-/* This is the custom StimulusReflex controller for the Category Reflex.
+import { sort } from 'webpack/lib/dependencies/DependencyReference'
+import RemoveEmptyChunksPlugin from 'webpack/lib/optimize/RemoveEmptyChunksPlugin'
+/* This is the custom StimulusReflex controller for the TodoItem Reflex.
  * Learn more at: https://docs.stimulusreflex.com
  */
 export default class extends ApplicationController {
@@ -27,7 +27,7 @@ export default class extends ApplicationController {
   }
 
   end(event){
-    this.stimulate("Category#sort", event.item.dataset.sgid, event.newIndex + 1)
+    this.stimulate("TodoItem#sort", event.item.dataset.sgid, event.newIndex + 1)
   }
 
   /* Reflex specific lifecycle methods.
@@ -37,26 +37,26 @@ export default class extends ApplicationController {
    * need them.
    *
    * Important:
-   * Make sure to add data-controller="category" to your markup alongside
-   * data-reflex="Category#dance" for the lifecycle methods to fire properly.
+   * Make sure to add data-controller="todo-item" to your markup alongside
+   * data-reflex="TodoItem#dance" for the lifecycle methods to fire properly.
    *
    * Example:
    *
-   *   <a href="#" data-reflex="click->Category#dance" data-controller="category">Dance!</a>
+   *   <a href="#" data-reflex="click->TodoItem#dance" data-controller="todo-item">Dance!</a>
    *
    * Arguments:
    *
    *   element - the element that triggered the reflex
    *             may be different than the Stimulus controller's this.element
    *
-   *   reflex - the name of the reflex e.g. "Category#dance"
+   *   reflex - the name of the reflex e.g. "TodoItem#dance"
    *
    *   error/noop - the error message (for reflexError), otherwise null
    *
    *   reflexId - a UUID4 or developer-provided unique identifier for each Reflex
    */
 
-  // Assuming you create a "Category#dance" action in your Reflex class
+  // Assuming you create a "TodoItem#dance" action in your Reflex class
   // you'll be able to use the following lifecycle methods:
 
   // beforeDance(element, reflex, noop, reflexId) {

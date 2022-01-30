@@ -1,0 +1,30 @@
+<ul id="todo_lists-list" class="list-group mt-3" data-controller="todolist">
+    <% category.todo_lists.order(:position).each do |todo_list| %>
+      <li class="card list-group-item btn-group offset-lg-1 mb-2 border rounded-3 border-5" data-sgid="<%= todo_list.to_sgid_param %>">
+        <% if @editing_todo_list == todo_list&.id %>
+            <%= render 'todo_lists/form' %>
+        <% else %>
+        <span class="badge bg-<%= todo_list.badge_color %>"><%= todo_list.status %></span>
+            <div class="card-title d-flex justify-content-between ">
+                <h4 class="col-lg-10" data-bs-toggle="collapse" href="#exe<%= todo_list.id %>" role="button" aria-expanded="false" aria-controls="collapseExample"><%= todo_list.title.capitalize %></h4>
+              <button type="button" style="min-width: 10%; max-width: 10%; color: white" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" data-reflex="click->TodoList#set_edit_todo_list" data-id="<%= todo_list.id %>">Editar</a></li>
+                  <li><a class="dropdown-item" href="#" data-reflex="click->TodoList#delete_todo_list" data-id="<%= todo_list.id %>">Remover</a></li>
+              </ul>
+            </div>
+            <p class="text-secondary m-0"> <small><%= todo_list.percent_complete %>% Completo (<%= todo_list.completed_items %>/<%= todo_list.total_items %> Itens )</small></p>
+            <div class="progress">
+              <div class="progress-bar bg-success" role="progressbar" style="width: <%= todo_list.percent_complete %>%" aria-valuenow="<%= todo_list.percent_complete %>" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <hr class="divider mb-0  mt-1">
+              <div class="collapse" id="exe<%= todo_list.id %>">
+                <div class="card">
+                  <%= render "todo_items/todo_items", todo_list: todo_list %>
+                </div>
+              </div>
+        <% end %>
+    <% end %>
+</ul>

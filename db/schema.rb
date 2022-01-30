@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 2022_01_27_184700) do
 
   create_table "todo_items", force: :cascade do |t|
     t.bigint "todo_list_id", null: false
-    t.string "name"
     t.text "description"
     t.integer "position"
     t.boolean "completed"
@@ -39,7 +38,6 @@ ActiveRecord::Schema.define(version: 2022_01_27_184700) do
   create_table "todo_lists", force: :cascade do |t|
     t.bigint "category_id", null: false
     t.string "title"
-    t.string "description"
     t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

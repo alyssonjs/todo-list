@@ -5,5 +5,5 @@ class User < ApplicationRecord
   validates_presence_of :name, :password
   validates_presence_of :email, uniqueness: true
 
-  has_many :categories
+  has_many :categories, dependent: :delete_all
 end

@@ -4,7 +4,6 @@
   <tr>
     <th>Category</th>
     <th>Title</th>
-    <th>Description</th>
     <th>Position</th>
     <th></th>
     <th></th>
@@ -15,7 +14,6 @@
   <tr>
     <td><%= todo_list.category %></td>
     <td><%= todo_list.title %></td>
-    <td><%= todo_list.description %></td>
     <td><%= todo_list.position %></td>
     <td><%= link_to 'Show', [todo_list.category, todo_list] %></td>
     <td><%= link_to 'Edit', edit_category_todo_list_path(todo_list.category, todo_list) %></td>
@@ -24,6 +22,6 @@
 <% end %>
 </table>
 
-<br />
+<br>
 
 <%= link_to 'New Todo list', new_category_todo_list_path(params[:category_id]) %>

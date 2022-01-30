@@ -5,8 +5,9 @@ class SessionsController < ApplicationController
         user = User.find_by(email:login_params[:email].downcase)
         if user && user.authenticate(login_params[:password])
             session[:user_id] = user.id
-
-            redirect_to "/users/#{session[:user_id]}/categories"
+            @current_user = user
+            p @current_user
+            redirect_to "/categories"
         else
             flash[:notice] = 'Algo está errado, confira seu email ou senha.'
             redirect_to login_path

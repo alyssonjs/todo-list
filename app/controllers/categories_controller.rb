@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :set_user
   before_action :set_category, only: [:show, :edit, :update, :destroy]
-    skip_before_action :verify_authenticity_token
+  before_action :authorize_access, except: [:index]
 
   # GET users/1/categories
   def index
@@ -10,7 +10,6 @@ class CategoriesController < ApplicationController
 
   # GET users/1/categories/1
   def show
-    @todo_lists = @category.todo_lists
   end
 
   # GET users/1/categories/new
@@ -52,11 +51,23 @@ class CategoriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:user_id])
+      if current_user
+        @user = User.find(current_user.id)
+      else
+        flash[:notice] = 'Precisa estar logado'
+        redirect_to login_path
+      end
     end
 
     def set_category
       @category = @user.categories.find(params[:id])
+    end
+
+    def authorize_access
+      return if @user.id == current_user.id
+
+      flash[:notice] = 'Acesso negado'
+      redirect_to login_path
     end
 
     # Only allow a trusted parameter "white list" through.
