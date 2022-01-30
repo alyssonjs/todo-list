@@ -21,7 +21,7 @@
                                 <%= button_to "#", data: { reflex: 'click->Category#create_category', id: @user.id }, class: "btn btn-primary btn-sm input-group-btn", style: "margin-left: 27%;" do %>
                                     <small style="font-size: 15px; color: white">+</small>
                                 <% end %>
-                                <%= link_to '#', data: { reflex: 'click->Category#unset_create_category' }, class: 'btn btn btn-danger btn-sm', style: 'margin-right: -30%; width: 10%' do %>
+                                <%= link_to '#', data: { reflex: 'click->Category#unset_create_category', id: @category&.id || @categories.order(:position)&.first&.id }, class: 'btn btn btn-danger btn-sm', style: 'margin-right: -30%; width: 10%' do %>
                                     <div style="font-size: 15px; color: white">x</div>
                                 <% end %>
                             </div>
@@ -29,7 +29,7 @@
                         </div>
                     <% end %>
                 <% else %>
-                    <%= link_to '#', data: {reflex: 'click->Category#set_create_category'}, class: 'btn btn-info btn-sm',  style: "margin-left: 10%" do %>
+                    <%= link_to '#', data: {reflex: 'click->Category#set_create_category', id: @category&.id || @categories.order(:position)&.first&.id }, class: 'btn btn-info btn-sm',  style: "margin-left: 10%" do %>
                      <div style="font-size: 12px; color: white">Adicionar Categoria</div>
                     <% end %>
                 <% end %>

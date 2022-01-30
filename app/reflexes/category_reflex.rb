@@ -6,6 +6,7 @@ class CategoryReflex < ApplicationReflex
   end
 
   def set_create_category
+    @category = Category.find(element.dataset.id)
     @create_category = true
   end
 
@@ -28,6 +29,7 @@ class CategoryReflex < ApplicationReflex
   end
 
   def unset_create_category
+    @category = Category.find(element.dataset.id)
     @create_category = false
   end
 
