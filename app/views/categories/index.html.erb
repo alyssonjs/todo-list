@@ -13,7 +13,7 @@
         <ul class=" col-3 nav flex-column nav-tabs h-100 ">
             <div class=" row ">
                 <% if @create_category %>
-                    <%= form_with(model: [Category.new], style: "") do |f| %>
+                    <%= form_with(model: [Category.new]) do |f| %>
                         <div class=" input-group ">
                             <%= f.text_field :name, data: { reflex: 'change->Category#submit', reflex_dataset: "combined" },  class: "form-control form-control-sm", placeholder: "Nome" %>
                             <div class="input-group-append">
@@ -29,7 +29,7 @@
                         </div>
                     <% end %>
                 <% else %>
-                    <%= link_to '#', data: {reflex: 'click->Category#set_create_category'}, class: 'btn btn-primary btn-sm',  style: "margin-left: 10%" do %>
+                    <%= link_to '#', data: {reflex: 'click->Category#set_create_category'}, class: 'btn btn-info btn-sm',  style: "margin-left: 10%" do %>
                      <div style="font-size: 12px; color: white">Adicionar Categoria</div>
                     <% end %>
                 <% end %>
@@ -46,7 +46,7 @@
                                     <%= link_to  '#', data: {reflex: 'click->Category#change_category', id: category.id}, class: "btn btn-sm nav-link active" do %>
                                         <small style="margin-left: -24%"><%= category.name.capitalize %></small>
                                     <% end %>
-                                    <button type="button" style="min-width: 20%; max-width: 20%;margin-right: -20%" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" style="min-width: 20%; max-width: 20%;margin-right: -20%" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span class="visually-hidden">Toggle Dropdown</span>
                                     </button>
                                 <% end %>

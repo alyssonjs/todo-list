@@ -1,14 +1,15 @@
 class TodoItemsController < ApplicationController
   before_action :set_todo_list
-  before_action :set_todo_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_todo_item, only: %i[show edit update destroy]
 
   # GET todo_lists/1/todo_items
   def index
     @todo_items = @todo_list.todo_items
+  end
 
   # GET todo_lists/1/todo_items/1
-  def show
-  end
+
+  def show; end
 
   # GET todo_lists/1/todo_items/new
   def new
@@ -16,8 +17,7 @@ class TodoItemsController < ApplicationController
   end
 
   # GET todo_lists/1/todo_items/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST todo_lists/1/todo_items
   def create
@@ -47,17 +47,18 @@ class TodoItemsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_todo_list
-      @todo_list = TodoList.find(params[:todo_list_id])
-    end
 
-    def set_todo_item
-      @todo_item = @todo_list.todo_items.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_todo_list
+    @todo_list = TodoList.find(params[:todo_list_id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def todo_item_params
-      params.require(:todo_item).permit(:todo_list_id, :name, :description, :position, :completed, :completed_at)
-    end
+  def set_todo_item
+    @todo_item = @todo_list.todo_items.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def todo_item_params
+    params.require(:todo_item).permit(:todo_list_id, :name, :description, :position, :completed, :completed_at)
+  end
 end

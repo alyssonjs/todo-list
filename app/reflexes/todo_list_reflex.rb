@@ -15,6 +15,7 @@ class TodoListReflex < ApplicationReflex
 
   def set_edit_todo_list
     @todo_list = TodoList.find(element.dataset.id)
+    @category = @todo_list.category
     @editing_todo_list = @todo_list.id
   end
 
@@ -23,7 +24,7 @@ class TodoListReflex < ApplicationReflex
     @todo_list.assign_attributes(todo_list_params)
     @todo_list.save
     @category = @todo_list.category
-    @editing_todo_list= nil
+    @editing_todo_list = nil
   end
 
   def create_todo_list

@@ -3,5 +3,7 @@ class TodoItem < ApplicationRecord
 
   acts_as_list
 
+  validates_presence_of :description
+
   scope :completed, -> { where(completed: true) }
 end
