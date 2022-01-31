@@ -6,7 +6,6 @@ class SessionsController < ApplicationController
         if user && user.authenticate(login_params[:password])
             session[:user_id] = user.id
             @current_user = user
-            p @current_user
             redirect_to "/categories"
         else
             flash[:notice] = 'Algo está errado, confira seu email ou senha.'

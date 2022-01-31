@@ -6,12 +6,12 @@ class CategoryReflex < ApplicationReflex
   end
 
   def set_create_category
-    @category = Category.find(element.dataset.id)
+    @category = Category.find(element.dataset.id) if element.dataset.id
     @create_category = true
   end
 
   def set_edit_category
-    @category = Category.find(element.dataset.id)
+    @category = Category.find(element.dataset.id) if element.dataset.id
     @editing_category = @category.id
   end
 
@@ -24,7 +24,9 @@ class CategoryReflex < ApplicationReflex
 
   def delete_category
     category = Category.find element.dataset.id
+    category.todo_lists.each { |todo_list| todo_list.todo_items.delete_all }
     category.todo_lists.delete_all
+
     category.delete
   end
 
